@@ -94,8 +94,12 @@ file(GLOB STREAM_SRC          "${TV_ROOT}/stream/*.cc")
 # #if defined(TVOS_UNIX) || defined(TVCompf_Cygwin)
 
 
+if (TV_TERMINAL)
 
-if (WIN32)
+    list(APPEND TV_DEFINITIONS TV_TERMINAL=1)
+    message("TurboVision configured for teminal")
+
+elseif (WIN32)
 
     set(PALTFROM_SOURCES ${CLASSES_WIN32_SRC} ${CLASSES_WINNT_SRC})
     # set(PALTFROM_SOURCES ${CLASSES_WINNT_SRC}) # ???
@@ -136,6 +140,19 @@ else()
 
     set(PALTFROM_SOURCES )
 
+endif()
+
+
+if (TV_NO_FILESYSTEM)
+    list(APPEND TV_DEFINITIONS TV_NO_FILESYSTEM=1)
+
+    # Remove all file system dependent sources
+    list(FILTER CLASSES_SRC EXCLUDE REGEX ".*tfilelis\.cc$")
+
+endif()
+
+if(TV_BARE)
+   list(APPEND TV_DEFINITIONS TV_BARE=1)
 endif()
 
 

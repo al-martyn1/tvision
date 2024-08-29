@@ -131,13 +131,13 @@ typedef unsigned long  ulong;
 #endif
 
 #undef  FSTREAM_HEADER
-#define FSTREAM_HEADER   <fstream.h>
+#define FSTREAM_HEADER   <fstream>
 #undef  STRSTREAM_HEADER
-#define STRSTREAM_HEADER <strstream.h>
+#define STRSTREAM_HEADER <sstream>
 #undef  IOMANIP_HEADER
-#define IOMANIP_HEADER   <iomanip.h>
+#define IOMANIP_HEADER   <iomanip>
 #undef  IOSTREAM_HEADER
-#define IOSTREAM_HEADER  <iostream.h>
+#define IOSTREAM_HEADER  <iostream>
 #undef  IOCTL_HEADER
 #define IOCTL_HEADER     <sys/ioctl.h>
 #undef  NEW_HEADER

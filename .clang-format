@@ -1,0 +1,64 @@
+---
+# https://clang.llvm.org/docs/ClangFormatStyleOptions.html
+
+# We'll use defaults from the LLVM style, but with 4 columns indentation.
+# BasedOnStyle: LLVM
+IndentWidth: 4
+BasedOnStyle: InheritParentConfig
+---
+Language: Cpp
+# https://stackoverflow.com/questions/24476165/indenting-preprocessor-directives-with-clang-format
+IndentPPDirectives: BeforeHash
+# AlignAfterOpenBracket: BAS_Align
+# AlignArrayOfStructures: AIAS_Left
+AlignConsecutiveAssignments:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: false
+  AlignCompound: true
+  PadOperators: true
+AlignConsecutiveBitFields:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: false
+AlignConsecutiveDeclarations:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: false
+  AlignFunctionPointers: true
+AlignConsecutiveMacros:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: false
+AlignConsecutiveShortCaseStatements:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: true
+  AlignCaseColons: true
+  AlignCaseArrows: true
+AlignEscapedNewlines: ENAS_Left
+AlignOperands: OAS_AlignAfterOperator
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 2
+AllowShortBlocksOnASingleLine: SBS_Empty
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterEnum: true
+  AfterStruct: true
+  AfterClass: true
+  AfterUnion: true
+  AfterFunction: true
+  AfterControlStatement: BWACS_Always
+  AfterExternBlock: true
+  BeforeCatch: true
+  BeforeElse: true
+  BeforeWhile: false
+  BeforeLambdaBody: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+BreakAfterAttributes: ABS_Always
+---
+# Language: C
+---
+

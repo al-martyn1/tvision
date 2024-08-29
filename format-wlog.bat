@@ -1,0 +1,1 @@
+@call format.bat 1> format-2.log 2>&1

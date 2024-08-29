@@ -13,25 +13,42 @@ set(MODULE_ROOT "${CMAKE_CURRENT_LIST_DIR}")
 set(TV_ROOT "${MODULE_ROOT}/tvision")
 
 
+set(TV_DEFINITIONS )
+
+
 
 # https://cmake.org/cmake/help/latest/variable/CMAKE_LANG_COMPILER_ID.html
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    add_compile_definitions(${PROJECT_NAME} PUBLIC TVComp_GCC=1)
+    # # add_compile_definitions(${PROJECT_NAME} PUBLIC TVComp_GCC=1)
+    # target_compile_definitions(${PROJECT_NAME} PUBLIC TVComp_GCC=1)
+    list(APPEND TV_DEFINITIONS TVComp_GCC=1)
     if (WIN32)
-        add_compile_definitions(${PROJECT_NAME} PUBLIC TVCompf_MinGW=1)
+        # # add_compile_definitions(${PROJECT_NAME} PUBLIC TVCompf_MinGW=1)
+        # target_compile_definitions(${PROJECT_NAME} PUBLIC TVCompf_MinGW=1)
+        list(APPEND TV_DEFINITIONS TVCompf_MinGW=1)
     endif()
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    add_compile_definitions(${PROJECT_NAME} PUBLIC TVComp_GCC=1)
+    # # add_compile_definitions(${PROJECT_NAME} PUBLIC TVComp_GCC=1)
+    # target_compile_definitions(${PROJECT_NAME} PUBLIC TVComp_GCC=1)
+    list(APPEND TV_DEFINITIONS TVComp_GCC=1)
     if (WIN32)
-        add_compile_definitions(${PROJECT_NAME} PUBLIC TVCompf_MinGW=1)
+        # # add_compile_definitions(${PROJECT_NAME} PUBLIC TVCompf_MinGW=1)
+        # target_compile_definitions(${PROJECT_NAME} PUBLIC TVCompf_MinGW=1)
+        list(APPEND TV_DEFINITIONS TVCompf_MinGW=1)
     endif()
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    add_compile_definitions(${PROJECT_NAME} PUBLIC TVComp_MSC=1)
+    # # add_compile_definitions(${PROJECT_NAME} PUBLIC TVComp_MSC=1)
+    # target_compile_definitions(${PROJECT_NAME} PUBLIC TVComp_MSC=1)
+    list(APPEND TV_DEFINITIONS TVComp_MSC=1)
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "Embarcadero" OR CMAKE_CXX_COMPILER_ID STREQUAL "Borland")
-    add_compile_definitions(${PROJECT_NAME} PUBLIC TVComp_BCPP=1)
+    # # add_compile_definitions(${PROJECT_NAME} PUBLIC TVComp_BCPP=1)
+    # target_compile_definitions(${PROJECT_NAME} PUBLIC TVComp_BCPP=1)
+    list(APPEND TV_DEFINITIONS TVComp_BCPP=1)
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL "OpenWatcom")
-    add_compile_definitions(${PROJECT_NAME} PUBLIC TVComp_Watcom=1)
+    # # add_compile_definitions(${PROJECT_NAME} PUBLIC TVComp_Watcom=1)
+    # target_compile_definitions(${PROJECT_NAME} PUBLIC TVComp_Watcom=1)
+    list(APPEND TV_DEFINITIONS TVComp_Watcom=1)
 endif()
 
 
@@ -99,42 +116,63 @@ if (WIN32)
     set(PALTFROM_SOURCES ${CLASSES_WIN32_SRC} ${CLASSES_WINNT_SRC})
     # set(PALTFROM_SOURCES ${CLASSES_WINNT_SRC}) # ???
 
-    add_compile_definitions(${PROJECT_NAME} PUBLIC TVOS_Win32=1)
-    #add_compile_definitions(${PROJECT_NAME} PUBLIC TVOSf_NT=1)
+    # # add_compile_definitions(${PROJECT_NAME} PUBLIC TVOS_Win32=1)
+    # target_compile_definitions(${PROJECT_NAME} PUBLIC TVOS_Win32=1)
+    # #add_compile_definitions(${PROJECT_NAME} PUBLIC TVOSf_NT=1)
+    list(APPEND TV_DEFINITIONS TVOS_Win32=1)
 
-    add_compile_definitions(${PROJECT_NAME} PUBLIC TVCPU_x86=1)
-    # add_compile_definitions(${PROJECT_NAME} PUBLIC TVCPU_AMD64=1)
+    # # add_compile_definitions(${PROJECT_NAME} PUBLIC TVCPU_x86=1)
+    # target_compile_definitions(${PROJECT_NAME} PUBLIC TVCPU_x86=1)
+    # # # add_compile_definitions(${PROJECT_NAME} PUBLIC TVCPU_AMD64=1)
+    # # target_compile_definitions(${PROJECT_NAME} PUBLIC TVCPU_AMD64=1)
+    list(APPEND TV_DEFINITIONS TVCPU_x86=1)
 
 elseif(CMAKE_SYSTEM_NAME STREQUAL "DOS")
 
-    # list(APPEND SOURCES ${CLASSES_DOS_SRC})
+    # # list(APPEND SOURCES ${CLASSES_DOS_SRC})
     set(PALTFROM_SOURCES ${CLASSES_DOS_SRC})
-    add_compile_definitions(${PROJECT_NAME} PUBLIC TVOS_DOS=1)
+    # # add_compile_definitions(${PROJECT_NAME} PUBLIC TVOS_DOS=1)
+    # target_compile_definitions(${PROJECT_NAME} PUBLIC TVOS_DOS=1)
+    list(APPEND TV_DEFINITIONS TVOS_DOS=1)
 
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 
     # list(APPEND SOURCES ${CLASSES_LINUX_SRC})
     set(PALTFROM_SOURCES ${CLASSES_LINUX_SRC})
-    add_compile_definitions(${PROJECT_NAME} PUBLIC TVOS_UNIX=1)
-    add_compile_definitions(${PROJECT_NAME} PUBLIC TVOSf_Linux=1)
+    # # add_compile_definitions(${PROJECT_NAME} PUBLIC TVOS_UNIX=1)
+    # # add_compile_definitions(${PROJECT_NAME} PUBLIC TVOSf_Linux=1)
+    # target_compile_definitions(${PROJECT_NAME} PUBLIC TVOS_UNIX=1)
+    # target_compile_definitions(${PROJECT_NAME} PUBLIC TVOSf_Linux=1)
+    list(APPEND TV_DEFINITIONS TVOS_UNIX=1)
+    list(APPEND TV_DEFINITIONS TVOSf_Linux=1) 
 
 elseif(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_SYSTEM_NAME STREQUAL "kFreeBSD" OR CMAKE_SYSTEM_NAME STREQUAL "HP-UX" CMAKE_SYSTEM_NAME STREQUAL "BSDOS" OR OR CMAKE_SYSTEM_NAME STREQUAL "MirBSD" OR CMAKE_SYSTEM_NAME STREQUAL "NetBSD" OR CMAKE_SYSTEM_NAME STREQUAL "OpenBSD" )
 
     # list(APPEND SOURCES ${CLASSES_UNIX_SRC})
     set(PALTFROM_SOURCES ${CLASSES_UNIX_SRC})
-    add_compile_definitions(${PROJECT_NAME} PUBLIC TVOS_UNIX=1)
+    # # add_compile_definitions(${PROJECT_NAME} PUBLIC TVOS_UNIX=1)
+    # target_compile_definitions(${PROJECT_NAME} PUBLIC TVOS_UNIX=1)
+    list(APPEND TV_DEFINITIONS TVOS_UNIX=1)
     if(CMAKE_SYSTEM_NAME STREQUAL "FreeBSD" OR CMAKE_SYSTEM_NAME STREQUAL "kFreeBSD")
-        add_compile_definitions(${PROJECT_NAME} PUBLIC TVOSf_FreeBSD=1)
+        # # add_compile_definitions(${PROJECT_NAME} PUBLIC TVOSf_FreeBSD=1)
+        # target_compile_definitions(${PROJECT_NAME} PUBLIC TVOSf_FreeBSD=1)
+        list(APPEND TV_DEFINITIONS TVOSf_FreeBSD=1)
     else()
-        add_compile_definitions(${PROJECT_NAME} PUBLIC TVOSf_NetBSD=1)
+        # # add_compile_definitions(${PROJECT_NAME} PUBLIC TVOSf_NetBSD=1)
+        # target_compile_definitions(${PROJECT_NAME} PUBLIC TVOSf_NetBSD=1)
+        list(APPEND TV_DEFINITIONS TVOSf_NetBSD=1)
     endif()
 
 elseif(CMAKE_SYSTEM_NAME STREQUAL "QNX")
 
     # list(APPEND SOURCES ${CLASSES_QNX4_SRC})
     set(PALTFROM_SOURCES ${CLASSES_QNX4_SRC})
-    add_compile_definitions(${PROJECT_NAME} PUBLIC TVOS_UNIX=1)
-    add_compile_definitions(${PROJECT_NAME} PUBLIC TVOSf_QNX4=1)
+    # # add_compile_definitions(${PROJECT_NAME} PUBLIC TVOS_UNIX=1)
+    # # add_compile_definitions(${PROJECT_NAME} PUBLIC TVOSf_QNX4=1)
+    # target_compile_definitions(${PROJECT_NAME} PUBLIC TVOS_UNIX=1)
+    # target_compile_definitions(${PROJECT_NAME} PUBLIC TVOSf_QNX4=1)
+    list(APPEND TV_DEFINITIONS TVOS_UNIX=1) 
+    list(APPEND TV_DEFINITIONS TVOSf_QNX4=1)
 
 else()
 
@@ -146,11 +184,17 @@ endif()
 # https://cmake.org/cmake/help/latest/variable/CMAKE_SYSTEM_PROCESSOR.html
 # https://stackoverflow.com/questions/11944060/how-to-detect-target-architecture-using-cmake
 
-add_compile_definitions(${PROJECT_NAME} PUBLIC CLY_ssize_t=1)
-# add_compile_definitions(${PROJECT_NAME} PUBLIC CLY_DoNotDefineSizedTypes=1)
+# # add_compile_definitions(${PROJECT_NAME} PUBLIC CLY_ssize_t=1)
+# target_compile_definitions(${PROJECT_NAME} PUBLIC CLY_ssize_t=1)
+# # add_compile_definitions(${PROJECT_NAME} PUBLIC CLY_DoNotDefineSizedTypes=1)
 
-# add_compile_definitions(${PROJECT_NAME} PUBLIC "usleep(microseconds)=CLY_YieldProcessor(microseconds)")
+# # add_compile_definitions(${PROJECT_NAME} PUBLIC "usleep(microseconds)=CLY_YieldProcessor(microseconds)")
 
+list(APPEND TV_DEFINITIONS CLY_ssize_t=1)
+
+# https://cmake.org/cmake/help/v3.0/command/set.html
+set(TV_DEFINITIONS ${TV_DEFINITIONS} PARENT_SCOPE)
+add_compile_definitions(${TV_DEFINITIONS})
 
 
 set(SOURCES ${TV_ROOT}/drivers2.cc ${TV_ROOT}/histlist.cc ${TV_ROOT}/misc.cc ${TV_ROOT}/msgbox.cc ${TV_ROOT}/newstr.cc ${CLASSES_SRC} ${COMPAT_SRC} ${NAMES_SRC} ${STREAM_SRC} ${PALTFROM_SOURCES})

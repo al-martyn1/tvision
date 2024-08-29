@@ -9,8 +9,8 @@ BasedOnStyle: InheritParentConfig
 Language: Cpp
 # https://stackoverflow.com/questions/24476165/indenting-preprocessor-directives-with-clang-format
 IndentPPDirectives: BeforeHash
-# AlignAfterOpenBracket: BAS_Align
-# AlignArrayOfStructures: AIAS_Left
+# AlignAfterOpenBracket: Align # BAS_
+# AlignArrayOfStructures: Left # AIAS_
 AlignConsecutiveAssignments:
   Enabled: true
   AcrossEmptyLines: true
@@ -25,7 +25,7 @@ AlignConsecutiveDeclarations:
   Enabled: true
   AcrossEmptyLines: true
   AcrossComments: false
-  AlignFunctionPointers: true
+  # AlignFunctionPointers: true
 AlignConsecutiveMacros:
   Enabled: true
   AcrossEmptyLines: true
@@ -35,13 +35,13 @@ AlignConsecutiveShortCaseStatements:
   AcrossEmptyLines: true
   AcrossComments: true
   AlignCaseColons: true
-  AlignCaseArrows: true
-AlignEscapedNewlines: ENAS_Left
-AlignOperands: OAS_AlignAfterOperator
+  # AlignCaseArrows: true
+AlignEscapedNewlines: Left #ENAS_
+AlignOperands: AlignAfterOperator # OAS_
 AlignTrailingComments:
   Kind: Always
   OverEmptyLines: 2
-AllowShortBlocksOnASingleLine: SBS_Empty
+AllowShortBlocksOnASingleLine: Empty #SBS_
 BreakBeforeBraces: Custom
 BraceWrapping:
   AfterEnum: true
@@ -49,7 +49,7 @@ BraceWrapping:
   AfterClass: true
   AfterUnion: true
   AfterFunction: true
-  AfterControlStatement: BWACS_Always
+  AfterControlStatement: Always # BWACS_
   AfterExternBlock: true
   BeforeCatch: true
   BeforeElse: true
@@ -57,7 +57,7 @@ BraceWrapping:
   BeforeLambdaBody: false
   SplitEmptyFunction: false
   SplitEmptyRecord: false
-BreakAfterAttributes: ABS_Always
+BreakAfterAttributes: Always # ABS_
 ---
 # Language: C
 ---

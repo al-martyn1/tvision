@@ -218,7 +218,7 @@ if(TV_MCU_COMPILE_OPTIONS)
 endif()
 
 if(TV_MCU_LINK_OPTIONS)
-    target_link_options(${PROJECT_NAME}        PRIVATE ${TV_MCU_LINK_OPTIONS   })
+    target_link_options(${PROJECT_NAME}        PRIVATE ${TV_MCU_LINK_OPTIONS})
 endif()
 
 

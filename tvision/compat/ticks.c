@@ -40,3 +40,31 @@ unsigned short CLY_Ticks(void)
 }
 #endif
 
+
+#ifdef TVOS_BareMetal
+#include "compatlayer.h"
+
+#ifdef TV_ATTRIBUTE_WEAK
+
+// In bare metal version in most cases we have no mouse and next stub not needed
+TV_ATTRIBUTE_WEAK
+unsigned short CLY_Ticks(void)
+{
+  static unsigned short t = 0;
+  return t++;
+}
+
+#else
+
+    #ifdef TV_BARE_METAL_HAS_IMPL_CLY_Ticks
+        // Do nothing
+    #else
+        #error "Implement CLY_Ticks funtion in your code and define macro TV_BARE_METAL_HAS_IMPL_CLY_Ticks"
+    #endif
+
+#endif
+
+
+#endif // TVOS_BareMetal
+
+

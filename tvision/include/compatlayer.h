@@ -38,6 +38,43 @@ and regex.
 
 #include <tv/configtv.h>
 
+
+// Newly added definitions and code comes first
+
+
+
+// Weak symbols
+// https://ofekshilon.com/2014/02/10/linker-weak-symbols/
+// MSVC /ALTERNATENAME - https://devblogs.microsoft.com/oldnewthing/20200731-00/?p=104024
+// https://forum.nim-lang.org/t/11228
+
+
+
+#if !defined(TV_ATTRIBUTE_WEAK)
+
+    // TV_ATTRIBUTE_WEAK can be defined in user configtv.h
+
+    #ifdef __GNUC__
+
+        // https://www.kolpackov.net/pipermail/notes/2004-March/000006.html
+        #define TV_ATTRIBUTE_WEAK __attribute__ ((weak))
+
+    #else
+
+        // We don't know how to make weak symbols in compilers other than GCC
+
+        #ifdef _MSC_VER
+
+            // https://devblogs.microsoft.com/oldnewthing/20200731-00/?p=104024
+            #define TV_ATTRIBUTE_WEAK_PRAGMA_LINKER_ALTERNATENAME_SUPPORTED  1
+
+        #endif
+
+    #endif
+
+#endif
+
+
 #ifdef Uses_fstream_simple
     #ifdef HAVE_SSC
         #define Uses_SSC_Streams 1
@@ -2070,10 +2107,21 @@ CLY_CFunc int mkstemp(char *_template);
 #endif
 
 CLY_CFunc void CLY_YieldProcessor(int micros);
-CLY_CFunc void CLY_ReleaseCPU();
+
+CLY_CFunc
+#if defined(TVOS_BareMetal) && defined(TV_ATTRIBUTE_WEAK)
+TV_ATTRIBUTE_WEAK
+#endif
+void CLY_ReleaseCPU();
+
 /* Return the number of ticks (on MSDOS 1 tick is 1/18 sec),
    this is used to compute the double click */
-CLY_CFunc unsigned short CLY_Ticks(void);
+CLY_CFunc
+#if defined(TVOS_BareMetal) && defined(TV_ATTRIBUTE_WEAK)
+TV_ATTRIBUTE_WEAK
+#endif
+unsigned short CLY_Ticks(void);
+
 /* An utility to split directory and file components of a path:
    Extracts from path the directory part and filename part.
    if 'dir' and/or 'file' == NULL, it is not filled.
@@ -2679,6 +2727,14 @@ inline int CLY_HaveLFNs() { return 1; }
     #define CLY_crlf         "\n"
     #define CLY_IsTrueEOL(a) (a == '\n')
 #endif
+
+
+#if defined(TVOS_BareMetal)
+    #if !defined(usleep)
+        #define usleep(microseconds) CLY_YieldProcessor(microseconds)
+    #endif
+#endif
+
 
 #undef CLY_CFunc
 

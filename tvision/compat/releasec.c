@@ -76,3 +76,32 @@ void CLY_ReleaseCPU()
  usleep(1000);   // Linux, release 1 ms
 }
 #endif
+
+
+
+#ifdef TVOS_BareMetal
+#include "compatlayer.h"
+
+#ifdef TV_ATTRIBUTE_WEAK
+
+// In bare metal version in most cases we have no mouse and next stub not needed
+TV_ATTRIBUTE_WEAK
+void CLY_ReleaseCPU()
+{
+}
+
+#else
+
+    #ifdef TV_BARE_METAL_HAS_IMPL_CLY_ReleaseCPU
+        // Do nothing
+    #else
+        #error "Implement CLY_ReleaseCPU funtion in your code and define macro TV_BARE_METAL_HAS_IMPL_CLY_ReleaseCPU"
+    #endif
+
+#endif
+
+
+#endif // TVOS_BareMetal
+
+
+

@@ -150,6 +150,7 @@ endif()
 
 if (TV_NO_FILESYSTEM)
     list(APPEND TV_DEFINITIONS TV_NO_FILESYSTEM=1)
+    list(APPEND TV_DEFINITIONS NO_STREAM=1)
 
     # Remove all file system dependent sources
 

@@ -53,9 +53,13 @@ file(GLOB CLASSES_WINGR_SRC   "${TV_ROOT}/classes/wingr/*.cc"    )
 file(GLOB CLASSES_WINNT_SRC   "${TV_ROOT}/classes/winnt/*.cc"    )
 file(GLOB CLASSES_X11_SRC     "${TV_ROOT}/classes/x11/*.cc"      )
 
+# set_source_files_properties(${CLASSES_DOS_SRC} PROPERTIES LANGUAGE CXX )
+
 file(GLOB COMPAT_SRC          "${TV_ROOT}/compat/*.cc" "${TV_ROOT}/compat/*.c")
+# set_source_files_properties(${COMPAT_SRC} PROPERTIES LANGUAGE CXX )
 
 file(GLOB NAMES_SRC           "${TV_ROOT}/names/*.cc" "${TV_ROOT}/names/*.c")
+# set_source_files_properties(${NAMES_SRC} PROPERTIES LANGUAGE CXX )
 
 file(GLOB STREAM_SRC          "${TV_ROOT}/stream/*.cc")
 
@@ -94,10 +98,11 @@ file(GLOB STREAM_SRC          "${TV_ROOT}/stream/*.cc")
 # #if defined(TVOS_UNIX) || defined(TVCompf_Cygwin)
 
 
-if (TV_TERMINAL)
+if (TV_BARE_METAL)
 
-    list(APPEND TV_DEFINITIONS TV_TERMINAL=1)
-    message("TurboVision configured for teminal")
+    list(APPEND TV_DEFINITIONS TV_BARE_METAL=1)
+    list(APPEND TV_DEFINITIONS TVOS_BareMetal=1)
+    message("TurboVision configured for BareMetal")
 
 elseif (WIN32)
 
@@ -147,12 +152,32 @@ if (TV_NO_FILESYSTEM)
     list(APPEND TV_DEFINITIONS TV_NO_FILESYSTEM=1)
 
     # Remove all file system dependent sources
+
+    list(FILTER CLASSES_SRC EXCLUDE REGEX ".*configfile\.cc$")
+    list(FILTER CLASSES_SRC EXCLUDE REGEX ".*tchdirdi\.cc$")
+    list(FILTER CLASSES_SRC EXCLUDE REGEX ".*tdirlist\.cc$")
     list(FILTER CLASSES_SRC EXCLUDE REGEX ".*tfilelis\.cc$")
+    list(FILTER CLASSES_SRC EXCLUDE REGEX ".*tfilecol\.cc$")
+    list(FILTER CLASSES_SRC EXCLUDE REGEX ".*tfileedi\.cc$")
+    list(FILTER CLASSES_SRC EXCLUDE REGEX ".*tfiledia\.cc$")
+    list(FILTER CLASSES_SRC EXCLUDE REGEX ".*tfileinp\.cc$")
+
+    list(FILTER CLASSES_SRC EXCLUDE REGEX ".*fontcoll\.cc$") # Uses file API also
+
+    list(FILTER COMPAT_SRC  EXCLUDE REGEX ".*expandpath\.c$")
+    list(FILTER COMPAT_SRC  EXCLUDE REGEX ".*getcurdir\.c$")
+    list(FILTER COMPAT_SRC  EXCLUDE REGEX ".*isrelpath\.c$")
+    list(FILTER COMPAT_SRC  EXCLUDE REGEX ".*pathvalid\.c$")
+    list(FILTER COMPAT_SRC  EXCLUDE REGEX ".*validfilename\.c$")
 
 endif()
 
-if(TV_BARE)
-   list(APPEND TV_DEFINITIONS TV_BARE=1)
+if(TV_TERMINAL)
+   list(APPEND TV_DEFINITIONS TV_TERMINAL=1)
+endif()
+
+if(TV_NO_LOCALE_SUPPORT)
+   list(APPEND TV_DEFINITIONS TV_NO_LOCALE_SUPPORT=1)
 endif()
 
 
@@ -167,7 +192,7 @@ set(TV_DEFINITIONS ${TV_DEFINITIONS} PARENT_SCOPE)
 add_compile_definitions(${TV_DEFINITIONS})
 
 
-set(SOURCES ${TV_ROOT}/drivers2.cc ${TV_ROOT}/histlist.cc ${TV_ROOT}/misc.cc ${TV_ROOT}/msgbox.cc ${TV_ROOT}/newstr.cc ${CLASSES_SRC} ${COMPAT_SRC} ${NAMES_SRC} ${STREAM_SRC} ${PALTFROM_SOURCES})
+set(SOURCES ${COMPAT_SRC} ${NAMES_SRC} ${CLASSES_SRC} ${TV_ROOT}/drivers2.cc ${TV_ROOT}/histlist.cc ${TV_ROOT}/misc.cc ${TV_ROOT}/msgbox.cc ${TV_ROOT}/newstr.cc ${STREAM_SRC} ${PALTFROM_SOURCES})
 
 
 
@@ -183,6 +208,20 @@ add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 
 target_include_directories(${PROJECT_NAME} PUBLIC  ${TV_ROOT}/include)
 target_include_directories(${PROJECT_NAME} PRIVATE ${MODULE_ROOT}/..)
+
+if(TV_MCU_COMPILE_DEFINITIONS)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE ${TV_MCU_COMPILE_DEFINITIONS})
+endif()
+
+if(TV_MCU_COMPILE_OPTIONS)
+    target_compile_options(${PROJECT_NAME}     PRIVATE ${TV_MCU_COMPILE_OPTIONS})
+endif()
+
+if(TV_MCU_LINK_OPTIONS)
+    target_link_options(${PROJECT_NAME}        PRIVATE ${TV_MCU_LINK_OPTIONS   })
+endif()
+
+
 
 
 

@@ -155,7 +155,11 @@ void TCalcDisplay::calcKey(unsigned char key, unsigned code)
 {
     char stub[2] = " ";
     double r;
-    char *decPoint=nl_langinfo(RADIXCHAR);
+    #ifndef TV_NO_LOCALE_SUPPORT
+    const char *decPoint=nl_langinfo(RADIXCHAR);
+    #else
+    const char *decPoint=".";
+    #endif
 
     switch(code)
         {

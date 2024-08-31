@@ -54,6 +54,7 @@ Uses_TDrawBuffer               \
 Uses_TEditor                   \
 Uses_TEditorApp                \
 Uses_TEditWindow               \
+Uses_TEmbedApplication         \
 Uses_TEvent                    \
 Uses_TEventQueue               \
 Uses_TFileCollection           \

@@ -152,6 +152,12 @@ Modified by Salvador E. Tropea
 #define INCLUDE_VALID_H
 #endif
 
+#if defined( Uses_TEmbedApplication )
+#define Uses_TApplication
+#define Uses_TProgram
+#define INCLUDE_EMBEDAPP_H
+#endif
+
 #if defined( Uses_TApplication )
 #define Uses_TProgram
 #define INCLUDE_APP_H
@@ -778,6 +784,10 @@ Modified by Salvador E. Tropea
 
 #if defined( INCLUDE_APP_H )
 #include <tv/app.h>
+#endif
+
+#if defined( INCLUDE_EMBEDAPP_H )
+#include <tv/embedapp.h>
 #endif
 
 #if defined( INCLUDE_FILEVIEW_H )

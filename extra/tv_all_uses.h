@@ -54,6 +54,7 @@
 #define Uses_TEditor
 #define Uses_TEditorApp
 #define Uses_TEditWindow
+#define Uses_TEmbedApplication
 #define Uses_TEvent
 #define Uses_TEventQueue
 #define Uses_TFileCollection

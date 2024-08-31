@@ -735,7 +735,7 @@
 #define Uses_ipstream
 #define Uses_TPalette
 #define Uses_TProgram
-
+#define Uses_TEmbedApplication
 
 
 
